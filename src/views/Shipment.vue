@@ -27,6 +27,7 @@
       </div>
     </section>
     <Cart />
+    <StepButton />
     </main>
   </div>
 </template>
@@ -34,10 +35,12 @@
 <script>
 import StepBar from '../components/StepBar'
 import Cart from '../components/Cart'
+import StepButton from '../components/StepButton'
 export default {
   components:{
     StepBar,
-    Cart
+    Cart,
+    StepButton,
   }
 }
 </script>
