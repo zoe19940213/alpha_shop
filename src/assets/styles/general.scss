@@ -1,0 +1,151 @@
+/* -- fix -- */
+
+$step-button-bg: #f67599;
+$light-text: #808080;
+
+/* hover and non active*/
+
+$circle-text: #ffffff;
+$light-circle: #afb1bd;
+
+/* non active */
+
+$label-text: #808080;
+$lignt-border: #f0f0f5;
+
+/* non active & cart */
+
+
+/* -- siwtch mode -- */
+
+$themes: ( normal: ( body-bg: #ffffff, footer-bg: #f6f7f8, text: #2a2a2a, circle-bg: #2a2a2a, form-border: #4a4a4a, active-border: #2a2a2a, unactive-border: #f0f0f5, cart-bg: transparent, cart-border: #f0f0f5, logo: url("https://imgpile.com/images/5C5t1P.png"), ),
+dark: ( body-bg: #121212, footer-bg: #333333, text: #ffffff, circle-bg: #333333, form-border: #5e5e5e, active-border: #ffffff, unactive-border: #5e5e5e, cart-bg: #333333, cart-border: #4c4c4c, logo: url("https://imgpile.com/images/5Csw2F.png"),
+),
+);
+@mixin settheme($themes) {
+  @each $theme,
+  $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $item,
+      $color in $map {
+        $theme-map: map-merge( $theme-map, ( $item: $color, )) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($item) {
+  @return map-get($theme-map,
+  $item);
+}
+
+
+/* -- width, height setting -- */
+
+$sizes: ( 20: 20%,
+50: 50%,
+80: 80%,
+100: 100%,
+);
+@each $prop,
+$abbrev in (width: w,
+height: h) {
+  @each $num,
+  $value in $sizes {
+    .#{$abbrev}-#{$num} {
+      #{$prop}: #{$value};
+    }
+  }
+}
+
+
+/* -- margin, padding setting -- */
+
+$spacer: 1rem;
+$spacers: ( 1: ( $spacer * 0.25,
+),
+2: ( $spacer * 0.5,
+),
+3: ( $spacer * 0.75,
+),
+4: ( $spacer * 1,
+),
+5: ( $spacer * 1.25,
+),
+6: ( $spacer * 1.5,
+),
+7: ( $spacer * 1.75,
+),
+8: ( $spacer * 2,
+),
+);
+@each $prop,
+$abbrev in (margin: m,
+padding: p) {
+  @each $num,
+  $value in $spacers {
+    .#{$abbrev}-#{$num} {
+      #{$prop}: $value;
+    }
+    .#{$abbrev}t-#{$num} {
+      #{$prop}-top: $value;
+    }
+    .#{$abbrev}b-#{$num} {
+      #{$prop}-bottom: $value;
+    }
+    .#{$abbrev}l-#{$num} {
+      #{$prop}-left: $value;
+    }
+    .#{$abbrev}r-#{$num} {
+      #{$prop}-right: $value;
+    }
+    .#{$abbrev}x-#{$num} {
+      #{$prop}-right: $value;
+      #{$prop}-left: $value;
+    }
+    .#{$abbrev}y-#{$num} {
+      #{$prop}-top: $value;
+      #{$prop}-bottom: $value;
+    }
+  }
+}
+
+
+/* -- others -- */
+
+@mixin getStepNum($num) {
+  @for $i from 1 through $num {
+    &:nth-child(#{$i}) .step_circle::after {
+      content: "#{$i}";
+    }
+  }
+}
+
+@mixin hovereffect($text,
+$background) {
+  &:hover {
+    cursor: pointer;
+    color: $text;
+    background: $background;
+    &>i,
+    &>a {
+      color: $text;
+    }
+  }
+}
+
+%input-style {
+  height: 2.5rem;
+  padding-left: 1rem;
+  @include settheme($themes) {
+    border: 1px solid themed("form-border");
+    background: themed("body-bg");
+  }
+  border-radius: 5px;
+  &::placeholder {
+    color: #999999;
+  }
+}

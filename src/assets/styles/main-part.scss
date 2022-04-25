@@ -1,0 +1,117 @@
+main {
+  margin-top: 140px;
+  padding: 0 9%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 60px);
+  grid-gap: 1rem;
+  @include settheme($themes) {
+    background: themed("body-bg");
+  }
+  .main_form {
+    grid-column: 1 / 7;
+    grid-row: 3 / 8;
+    .form_part {
+      .form_part_title {
+        margin-bottom: 1.5rem;
+      }
+      .form_part_content {
+        .content_row {
+          display: flex;
+          flex-direction: column;
+          label {
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            color: $label-text;
+          }
+          input {
+            @extend %input-style;
+            &[type="radio"] {
+              cursor: pointer;
+              -webkit-appearance: none;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              @include settheme($themes) {
+                border: 1px solid themed("circle-bg");
+                &:checked {
+                  box-shadow: inset 0px 0px 0px 6px themed("circle-bg");
+                }
+              }
+            }
+          }
+          select {
+            position: relative;
+            @extend %input-style;
+            cursor: pointer;
+            -webkit-appearance: none;
+          }
+        }
+        &.address {
+          display: grid;
+          grid-template-areas: "title title name name name name" "phone phone phone Email Email Email" "city city address address address address";
+          grid-gap: 24px 30px;
+          @each $area in (title, name, phone, Email, city, address) {
+            .#{$area} {
+              grid-area: $area;
+            }
+          }
+        }
+        &.shipment {
+          display: flex;
+          flex-flow: row wrap;
+          .content_row {
+            width: 80%;
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: 60px 1fr 45px;
+            input {
+              position: relative;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              &:checked {
+                background: white;
+              }
+            }
+            .ship_descript {
+              p {
+                &:nth-child(1) {
+                  font-size: 0.875rem;
+                  line-height: 1.25rem;
+                }
+                &:nth-child(2) {
+                  font-size: 0.75rem;
+                  line-height: 1rem;
+                }
+              }
+            }
+            .ship_price {
+              font-size: 0.75rem;
+            }
+            @include settheme($themes) {
+              border: 1px solid themed("unactive-border");
+              &.active {
+                border: 1px solid themed("active-border");
+              }
+            }
+          }
+        }
+        &.payment {
+          .name,
+          .card {
+            padding-right: 35%;
+          }
+          display: grid;
+          grid-template-areas: "name name" "card card" "limit code";
+          grid-gap: 24px 30px;
+          @each $area in (name, card, limit, code) {
+            .#{$area} {
+              grid-area: $area;
+            }
+          }
+        }
+      }
+    }
+  }
+}
