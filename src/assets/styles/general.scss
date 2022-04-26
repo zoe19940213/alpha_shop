@@ -18,8 +18,8 @@ $lignt-border: #f0f0f5;
 
 /* -- siwtch mode -- */
 
-$themes: ( normal: ( body-bg: #ffffff, footer-bg: #f6f7f8, text: #2a2a2a, circle-bg: #2a2a2a, form-border: #4a4a4a, active-border: #2a2a2a, unactive-border: #f0f0f5, cart-bg: transparent, cart-border: #f0f0f5, logo: url("https://imgpile.com/images/5C5t1P.png"), ),
-dark: ( body-bg: #121212, footer-bg: #333333, text: #ffffff, circle-bg: #333333, form-border: #5e5e5e, active-border: #ffffff, unactive-border: #5e5e5e, cart-bg: #333333, cart-border: #4c4c4c, logo: url("https://imgpile.com/images/5Csw2F.png"),
+$themes: ( normal: ( body-bg: #ffffff, footer-bg: #f6f7f8, text: #2a2a2a, circle-bg: #2a2a2a, form-border: #4a4a4a, active-border: #2a2a2a, unactive-border: #f0f0f5, cart-bg: transparent, cart-border: #f0f0f5, logo: url("../logo-light.png"), ),
+dark: ( body-bg: #121212, footer-bg: #333333, text: #ffffff, circle-bg: #333333, form-border: #5e5e5e, active-border: #ffffff, unactive-border: #5e5e5e, cart-bg: #333333, cart-border: #4c4c4c, logo: url("../logo-dark.png"),
 ),
 );
 @mixin settheme($themes) {

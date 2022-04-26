@@ -1,21 +1,31 @@
 <template>
   <section class="main_stepbar mx-3 mb-6">
-      <div class="stepbar_bar_step active">
-        <div class="step_circle"></div>
-        <span class="step_descript">寄送地址</span>
-        <div class="step_line"></div>
-      </div>
-      <div class="stepbar_bar_step ">
-        <div class="step_circle"></div>
-        <span class="step_descript">運送方式</span>
-        <div class="step_line"></div>
-      </div>
-      <div class="stepbar_bar_step ">
-        <div class="step_circle"></div>
-        <span class="step_descript">付款資訊</span>
-      </div>
-    </section>
+    <div
+      v-for="step in steps"
+      :key="step.id"
+      :class="['stepbar_bar_step', { active: step.id === currentStep }]"
+    >
+      <div class="step_circle"></div>
+      <span class="step_descript">{{ step.descript }}</span>
+      <div v-show="step.id !== steps.length" class="step_line"></div>
+    </div>
+  </section>
 </template>
+
+<script>
+export default {
+  props: {
+    currentStep: {
+      type: Number,
+      required: true,
+    },
+    steps: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 .main_stepbar {

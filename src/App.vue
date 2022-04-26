@@ -1,7 +1,6 @@
 <template>
   <div id="alpha-shop" class="theme-normal">
     <Navbar />
-
     <router-view/>
     <Footer />
   </div>
@@ -16,7 +15,7 @@ export default {
   components:{
     Navbar,
     Footer,
-  }
+  },
 }
 </script>
 

@@ -8,24 +8,12 @@ Vue.use(VueRouter)
 const routes = [{
     path: '/',
     name: 'root',
-    redirect: '/address'
+    redirect: '/shopping/address'
   }, {
-    path: '/address',
+    path: '/shopping/:step',
     name: 'step-address',
     component: () =>
-      import ('../views/Address')
-  },
-  {
-    path: '/payment',
-    name: 'step-payment',
-    component: () =>
-      import ('../views/Payment')
-  },
-  {
-    path: '/shipment',
-    name: 'step-shipment',
-    component: () =>
-      import ('../views/Shipment')
+      import ('../views/Form')
   },
   {
     path: '*',

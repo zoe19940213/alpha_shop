@@ -1,14 +1,59 @@
 <template>
   <div class="main_step_btn mx-3 my-8">
-      <button class="step_btn next " id="next-step"> 下一步 <img src="https://imgpile.com/images/5CYzQW.png" alt="" class="ml-4"> </button>
-      <button class="step_btn prev d-none" id="prev-step"><img src="https://imgpile.com/images/5PdWou.png" alt="" class="mr-4">上一步 </button>
-    </div>
+    <button
+      @click.prevent.stop="handleNextBtn"
+      class="step_btn next"
+      id="next-step"
+    >
+      {{ nextButtonShow }}
+      <img src="https://imgpile.com/images/5CYzQW.png" alt="" class="ml-4" />
+    </button>
+    <button
+      v-show="currentStep !== 1"
+      @click.prevent.stop="handlePrevBtn"
+      class="step_btn prev"
+      id="prev-step"
+    >
+      <img src="https://imgpile.com/images/5PdWou.png" alt="" class="mr-4" />
+      上一步
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
-  
-}
+  props: {
+    currentStep: {
+      type: Number,
+      required: true,
+    },
+    steps: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    nextButtonShow() {
+      return this.currentStep === this.steps.length ? "確認送出" : "下一步";
+    },
+  },
+  methods: {
+    handleNextBtn() {
+      if (this.currentStep !== this.steps.length) {
+        this.$emit("stepChange",this.currentStep + 1 );
+      } else {
+        return;
+      }
+    },
+    handlePrevBtn() {
+      if (this.currentStep !== 1) {
+        this.$emit("stepChange", (this.currentStep - 1));
+      } else {
+        return;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">
