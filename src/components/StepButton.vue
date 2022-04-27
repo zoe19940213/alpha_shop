@@ -42,7 +42,7 @@ export default {
       if (this.currentStep !== this.steps.length) {
         this.$emit("stepChange",this.currentStep + 1 );
       } else {
-        return;
+        this.$emit("submitOrder");
       }
     },
     handlePrevBtn() {

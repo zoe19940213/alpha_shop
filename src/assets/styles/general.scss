@@ -130,7 +130,7 @@ $background) {
     cursor: pointer;
     color: $text;
     background: $background;
-    &>i,
+    &>.icon path,
     &>a {
       color: $text;
     }

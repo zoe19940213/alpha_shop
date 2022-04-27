@@ -9,7 +9,8 @@ const routes = [{
     path: '/',
     name: 'root',
     redirect: '/shopping/address'
-  }, {
+  },
+  {
     path: '/shopping/:step',
     name: 'step-address',
     component: () =>

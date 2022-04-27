@@ -3,35 +3,50 @@
     <div class="nav_logo web-logo"></div>
     <div class="nav_bar">
       <ul class="nav_bar_list">
-        <li class="bar_list_item"><a href="">男款</a></li>
-        <li class="bar_list_item"><a href="">女款</a></li>
-        <li class="bar_list_item"><a href="">最新消息</a></li>
-        <li class="bar_list_item"><a href="">客製商品</a></li>
-        <li class="bar_list_item"><a href="">聯絡我們</a></li>
+        <li
+          v-for="(item,index) in navlist" 
+          :key="index"
+          class="bar_list_item"><a href="">{{item}}</a></li>
       </ul>
     </div>
     <div class="nav_function">
       <div class="nav_function_search">
-        <input type="text" class="search_bar d-none">
         <button class="search_icon">
-          <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="function_icon"/>
+          <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="function_icon icon"/>
         </button>
+        <input type="text" class="search_bar mr-3">
       </div>
       <button class="nav_function_cart">
-      <font-awesome-icon icon="fa-solid fa-cart-shopping" class="function_icon" />
+      <font-awesome-icon icon="fa-solid fa-cart-shopping" class="function_icon icon" />
       </button>
       <label for="view-mode" class="nav_function_mode">
-        <font-awesome-icon icon="fa-solid fa-moon" class="function_icon"/>
-        <font-awesome-icon icon="fa-solid fa-sun" class="function_icon"/>
+        <font-awesome-icon 
+          v-if="darkmode"
+          icon="fa-solid fa-sun" class="function_icon icon"/>
+          <font-awesome-icon 
+          v-else
+          icon="fa-solid fa-moon" class="function_icon icon"/>
       </label>
-      <input type="checkbox" class="d-none" id="view-mode">
+      <input 
+        v-model="darkmode"
+        type="checkbox" class="d-none" id="view-mode">
     </div>
   </nav>
 </template>
 
 <script>
 export default {
-  
+  data(){
+    return{
+      darkmode: false,
+      navlist: ["男款", "女款", "最新消息", "客製商品", "聯絡我們"]
+    }
+  },
+  watch:{
+    darkmode(){
+      this.$emit('modeSwitch', this.darkmode)
+    }
+  }
 }
 </script>
 
@@ -88,20 +103,18 @@ nav {
     .function_icon {
       font-size: 1.3rem;
     }
-  }
-  /* -- dropdown -- */
-  .nav_bar_toggle:checked {
-    &~.nav_bar {
-      transform: scale(1, 1);
-      transition: transform 0.3s ease-in-out;
-      .nav_bar_list {
-        opacity: 1;
-        transition: opacity 0.3s 0.3s;
+    .search_bar{
+      position: absolute;
+      right: 290px;
+      transform: scale(0,1);
+      transform-origin: right;
+      transition: transform .3s;
+      &:hover, &:focus{
+        transform: scale(1,1);
       }
     }
-    &~.nav_function {
-      opacity: 1;
-      transition: opacity 0.3s 0.3s;
+    .search_icon:hover ~ .search_bar{
+      transform: scale(1,1)
     }
   }
 }

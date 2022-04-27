@@ -6,30 +6,34 @@
         <img :src="item.image" alt="" />
         <h4 class="item_name">{{ item.descrip }}</h4>
         <div class="item_amount">
-          <button 
+          <button
             @click.prevent.stop="minusAmount(item.id)"
-            class="amount_btn minus">
+            class="amount_btn minus"
+          >
             <font-awesome-icon icon="fa-solid fa-minus" />
           </button>
           <span>{{ item.amount }}</span>
-          <button 
+          <button
             @click.prevent.stop="plusAmount(item.id)"
-            class="amount_btn plus">
+            class="amount_btn plus"
+          >
             <font-awesome-icon icon="fa-solid fa-plus" />
           </button>
         </div>
-        <h5 class="item_price">{{ item.subtotal | toLocaleString }}</h5>
+        <h5 class="item_price">{{ item.subtotal | showPrice }}</h5>
       </div>
     </div>
     <div class="cart_calculate px-4">
       <p>
         <span>運費</span>
-        <span class="highlight" id="shipment-fee">免費</span> 
+        <span class="highlight" id="shipment-fee">{{
+          shipmentFee | showPrice
+        }}</span>
       </p>
       <p>
         <span>小計</span>
         <span class="highlight" id="total-amount">{{
-          totalPrice | toLocaleString
+          totalPrice | showPrice
         }}</span>
       </p>
     </div>
@@ -37,35 +41,41 @@
 </template>
 
 <script>
-const dummyData = {
-  cartItems: [
-    {
-      id: 1,
-      descript: "破壞補丁修身牛仔褲",
-      amount: 1,
-      price: 3999,
-      image: "https://imgpile.com/images/5Cspl4.png",
-    },
-    {
-      id: 2,
-      descript: "刷色直筒牛仔褲",
-      amount: 1,
-      price: 1299,
-      image: "https://imgpile.com/images/5CsSF2.png",
-    },
-  ],
-};
+const STORAGE_KEY = "cartitems";
+import { priceFilter } from "../utils/mixins";
 
 export default {
-  // need shipment data
+  mixins: [priceFilter],
+  props: {
+    shipmentFee: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       cartItems: [],
+      totalPrice: 0
     };
   },
   methods: {
-    fecthItems() {
-      this.cartItems = dummyData.cartItems;
+    fetchData() {
+      this.cartItems = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+        {
+          id: 1,
+          descript: "破壞補丁修身牛仔褲",
+          amount: 1,
+          price: 3999,
+          image: "https://imgpile.com/images/5Cspl4.png",
+        },
+        {
+          id: 2,
+          descript: "刷色直筒牛仔褲",
+          amount: 1,
+          price: 1299,
+          image: "https://imgpile.com/images/5CsSF2.png",
+        },
+      ];
       this.subtotalCalculate();
     },
     subtotalCalculate() {
@@ -73,46 +83,51 @@ export default {
         ...item,
         subtotal: item.price * item.amount,
       }));
+      this.calculateTotalPrice()
     },
-    plusAmount(itemId){
-      this.cartItems = this.cartItems.map(item => {
-        if(item.id === itemId){
+    plusAmount(itemId) {
+      this.cartItems = this.cartItems.map((item) => {
+        if (item.id === itemId) {
           return {
             ...item,
-            amount: item.amount+1,
-          }
-        }else{
-          return item
+            amount: item.amount + 1,
+          };
+        } else {
+          return item;
         }
-      })
-      this.subtotalCalculate()
+      });
+      this.subtotalCalculate();
     },
-    minusAmount(itemId){
-      this.cartItems = this.cartItems.map(item => {
-        if(item.id === itemId && item.amount > 1){
+    minusAmount(itemId) {
+      this.cartItems = this.cartItems.map((item) => {
+        if (item.id === itemId && item.amount > 1) {
           return {
             ...item,
-            amount: item.amount-1,
-          }
-        }else{
-          return item
+            amount: item.amount - 1,
+          };
+        } else {
+          return item;
         }
-      })
-      this.subtotalCalculate()
-    }
-  },
-  computed: {
-    totalPrice() {
-      return this.cartItems.reduce((pre, curr) => pre + curr.subtotal, 0);
+      });
+      this.subtotalCalculate();
     },
-  },
-  filters: {
-    toLocaleString(price) {
-      return `$${price.toLocaleString("en-US")}`;
+    calculateTotalPrice(){
+      this.totalPrice = 
+        this.cartItems.reduce((pre, curr) => pre + curr.subtotal, 0) + this.shipmentFee ;
+    },
+    submitTotalPrice() {
+      this.$emit("cartModified", this.totalPrice);
+    },
+    saveCart() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.cartItems));
     },
   },
   created() {
-    this.fecthItems();
+    this.fetchData();
+    this.submitTotalPrice();
+  },
+  updated() {
+    this.submitTotalPrice();
   },
 };
 </script>
