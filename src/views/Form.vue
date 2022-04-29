@@ -18,8 +18,14 @@
         @submitOrder="handleSubmitOrder"
       />
     </main>
-    <modal name="checkout-order">
-      {{order}}
+    <modal name="checkout-order" :resizable="true">
+      <div class="p-5 modal">
+        <h4>Check Out</h4>
+        <div v-for="(part, part_key) in order" :key="part_key">
+          <h5>{{part_key}}</h5>
+          <p>{{part}}</p>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -64,11 +70,12 @@ export default {
         },
       ],
       shipmentFee: 0,
-      order: { 
+      order: {
         address: {},
         shipment: {},
         payment: {},
-        totalPrice: 0 },
+        totalPrice: 0,
+      },
     };
   },
   methods: {
@@ -92,7 +99,6 @@ export default {
           ...JSON.parse(localStorage.getItem(STORAGE_KEY)),
         };
       });
-      
     },
     getShipmentFee() {
       this.shipmentFee = localStorage.getItem(STORAGE_KEYS[1])
@@ -112,8 +118,8 @@ export default {
       });
     },
     handleSubmitOrder() {
-      this.getOrder()
-      this.$modal.show("checkout-order")
+      this.getOrder();
+      this.$modal.show("checkout-order");
       console.log(JSON.stringify(this.order, null, 2));
     },
     // status loading
