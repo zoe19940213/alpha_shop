@@ -3,9 +3,14 @@
     <div
       v-for="step in steps"
       :key="step.id"
-      :class="['stepbar_bar_step', { active: step.id === currentStep }]"
+      :class="['stepbar_bar_step', 
+      { active: step.id === currentStep },
+      { checked: step.isCompleted}]"
     >
-      <div class="step_circle"></div>
+      <div class="step_circle">
+        <font-awesome-icon icon="fa-solid fa-check" 
+          v-show="step.isCompleted" class="icon"/>
+      </div>
       <span class="step_descript">{{ step.descript }}</span>
       <div v-show="step.id !== steps.length" class="step_line"></div>
     </div>
@@ -24,6 +29,14 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {};
+  },
+  method: {
+    checkStep(step) {
+      this.completeSteps.push(step.id);
+    },
+  }
 };
 </script>
 
@@ -69,7 +82,7 @@ export default {
           background: themed("circle-bg");
         }
         color: $circle-text;
-        i {
+        .icon path {
           color: $circle-text;
         }
       }

@@ -59,25 +59,6 @@ export default {
     };
   },
   methods: {
-    fetchData() {
-      this.cartItems = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
-        {
-          id: 1,
-          descript: "破壞補丁修身牛仔褲",
-          amount: 1,
-          price: 3999,
-          image: "https://imgpile.com/images/5Cspl4.png",
-        },
-        {
-          id: 2,
-          descript: "刷色直筒牛仔褲",
-          amount: 1,
-          price: 1299,
-          image: "https://imgpile.com/images/5CsSF2.png",
-        },
-      ];
-      this.subtotalCalculate();
-    },
     subtotalCalculate() {
       this.cartItems = this.cartItems.map((item) => ({
         ...item,
@@ -118,16 +99,36 @@ export default {
     submitTotalPrice() {
       this.$emit("cartModified", this.totalPrice);
     },
-    saveCart() {
+    load(){
+      this.cartItems = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+        {
+          id: 1,
+          descript: "破壞補丁修身牛仔褲",
+          amount: 1,
+          price: 3999,
+          image: "https://imgpile.com/images/5Cspl4.png",
+        },
+        {
+          id: 2,
+          descript: "刷色直筒牛仔褲",
+          amount: 1,
+          price: 1299,
+          image: "https://imgpile.com/images/5CsSF2.png",
+        },
+      ];
+      this.subtotalCalculate();
+    },
+    save(){
+      this.submitTotalPrice()
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.cartItems));
     },
   },
   created() {
-    this.fetchData();
-    this.submitTotalPrice();
+    this.load()
+    this.save()
   },
   updated() {
-    this.submitTotalPrice();
+    this.save()
   },
 };
 </script>

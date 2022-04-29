@@ -6,7 +6,7 @@
       id="next-step"
     >
       {{ nextButtonShow }}
-      <img src="https://imgpile.com/images/5CYzQW.png" alt="" class="ml-4" />
+      <img src="../assets/arrow-right.png" alt="" class="ml-4" />
     </button>
     <button
       v-show="currentStep !== 1"
@@ -14,7 +14,7 @@
       class="step_btn prev"
       id="prev-step"
     >
-      <img src="https://imgpile.com/images/5PdWou.png" alt="" class="mr-4" />
+      <img src="../assets/arrow-left.png" alt="" class="mr-4" />
       上一步
     </button>
   </div>
@@ -23,9 +23,9 @@
 <script>
 export default {
   props: {
-    currentStep: {
+    currentStep:{
       type: Number,
-      required: true,
+      required: true
     },
     steps: {
       type: Array,
@@ -40,14 +40,17 @@ export default {
   methods: {
     handleNextBtn() {
       if (this.currentStep !== this.steps.length) {
-        this.$emit("stepChange",this.currentStep + 1 );
+        const nextStep = this.currentStep + 1
+      this.prevStep = this.currentStep - 1
+        this.$emit("stepChange", nextStep)
       } else {
         this.$emit("submitOrder");
       }
     },
     handlePrevBtn() {
-      if (this.currentStep !== 1) {
-        this.$emit("stepChange", (this.currentStep - 1));
+      if (this.currentStep > 1) {
+        const prevStep = this.currentStep - 1
+        this.$emit("stepChange", prevStep)
       } else {
         return;
       }

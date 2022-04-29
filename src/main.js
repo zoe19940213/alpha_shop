@@ -9,14 +9,15 @@ import {
   faMoon,
   faSun,
   faMinus,
-  faPlus
+  faPlus,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons'
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import "./assets/styles/basic.scss"
 
 Vue.use(VModal)
-library.add(faMagnifyingGlass, faCartShopping, faMoon, faSun, faMinus, faPlus, faFacebook, faInstagram, faWhatsapp)
+library.add(faMagnifyingGlass, faCartShopping, faMoon, faSun, faMinus, faPlus, faCheck, faFacebook, faInstagram, faWhatsapp)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 

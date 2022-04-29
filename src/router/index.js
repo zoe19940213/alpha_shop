@@ -11,10 +11,29 @@ const routes = [{
     redirect: '/shopping/address'
   },
   {
-    path: '/shopping/:step',
+    path: '/shopping',
     name: 'step-address',
     component: () =>
-      import ('../views/Form')
+      import ('../views/Form'),
+    children: [{
+        name: 'address',
+        path: 'address',
+        component: () =>
+          import ('../views/Address')
+      },
+      {
+        name: 'shipment',
+        path: 'shipment',
+        component: () =>
+          import ('../views/Shipment')
+      },
+      {
+        name: 'payment',
+        path: 'payment',
+        component: () =>
+          import ('../views/Payment')
+      }
+    ]
   },
   {
     path: '*',
